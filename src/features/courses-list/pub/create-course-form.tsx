@@ -46,7 +46,7 @@ export function CreateCourseForm({ className, revalidatePagePath }: TCreateCours
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className, 'space-y-8')}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className, 'space-y-3')}>
         <FormField
           control={form.control}
           name='name'
@@ -56,7 +56,6 @@ export function CreateCourseForm({ className, revalidatePagePath }: TCreateCours
               <FormControl>
                 <Input placeholder='Название...' {...field} />
               </FormControl>
-              <FormDescription>This is your public display name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -70,7 +69,6 @@ export function CreateCourseForm({ className, revalidatePagePath }: TCreateCours
               <FormControl>
                 <Textarea placeholder='Описание курса...' {...field} />
               </FormControl>
-              <FormDescription>This is your public display name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
