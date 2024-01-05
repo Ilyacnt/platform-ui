@@ -16,7 +16,7 @@ export async function CoursesList({ revalidatePagePath }: TCoursesListProps) {
   }
 
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-4 '>
       {coursesList.map((course) => (
         <CourseItem
           key={course.id}
