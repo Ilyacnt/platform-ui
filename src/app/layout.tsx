@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/shared/ui/utils'
+import { AppProvider } from './_providers/app-provider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,9 +16,9 @@ const fontSans = FontSans({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body className={cn('min-h-screen bg-background font-sans antialiased ', fontSans.variable)}>
-        {children}
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   )
