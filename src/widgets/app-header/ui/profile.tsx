@@ -11,22 +11,40 @@ import {
 import { LogOut, User } from 'lucide-react'
 import { Button } from '@/shared/ui/button'
 import Link from 'next/link'
-import { Avatar, AvatarFallback } from '@/shared/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
+import { useSignOut } from '@/features/auth/use-sign-out'
+import { Skeleton } from '@/shared/ui/skeleton'
+import { SignInButton } from '@/features/auth/sign-in-button'
+import { useAppSession } from '@/entities/session/use-app-session'
 
 export function Profile() {
+  const session = useAppSession()
+  const { signOut, isPending: isPendingSignOut } = useSignOut()
+
+  if (session.status === 'loading') {
+    return <Skeleton className='w-8 h-8 rounded-full' />
+  }
+
+  if (session.status === 'unauthenticated') {
+    return <SignInButton />
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' className='p-px rounded-full self-center h-8 w-8'>
           <Avatar className='w-8 h-8'>
-            <AvatarFallback>AC</AvatarFallback>
+            <AvatarImage src={session.data?.user.image} />
+            <AvatarFallback>{session.data?.user?.name}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56 mr-2 '>
         <DropdownMenuLabel>
           <p>Мой аккаунт</p>
-          <p className='text-xs text-muted-foreground overflow-hidden text-ellipsis'>Text</p>
+          <p className='text-xs text-muted-foreground overflow-hidden text-ellipsis'>
+            {session.data?.user.name}
+          </p>
         </DropdownMenuLabel>
         <DropdownMenuGroup></DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -38,7 +56,7 @@ export function Profile() {
               <span>Профиль</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem disabled={isPendingSignOut} onClick={() => signOut()}>
             <LogOut className='mr-2 h-4 w-4' />
             <span>Выход</span>
           </DropdownMenuItem>
